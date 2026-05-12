@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acerto Fácil - Simulador de Rescisão Executivo</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link href="./src/css/output.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/src/css/style.css">
+
+</head>
+
+<body
+    class="min-h-screen flex flex-col bg-[#f8fafc] font-sans text-slate-800 antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Navegação -->
+    <nav id="top-nav"
+        class="w-full max-w-none bg-[#0B1120] text-white shadow-lg border-b border-white/10 sticky top-0 z-50 backdrop-blur-md bg-opacity-90 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-brand-500/20 p-2 rounded-xl border border-brand-500/30">
+                    <i data-lucide="bar-chart-3" class="w-5 h-5 text-brand-400"></i>
+                </div>
+                <h1 class="text-xl font-bold tracking-tight">Acerto<span class="text-brand-500">Fácil</span></h1>
+            </div>
+            <div class="flex items-center gap-3">
+                <div
+                    class="hidden sm:flex items-center gap-2 text-xs font-medium text-emerald-400 bg-emerald-400/10 px-3 py-1.5 rounded-full border border-emerald-400/20">
+                    <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
+                    Modo Auto-Estimativa
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Container -->
+    <main
+        class="flex-grow w-full max-w-7xl mx-auto px-4 md:px-8 mt-8 lg:mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start mb-16">
+
+        <!-- COLUNA ESQUERDA: FORMULÁRIO SIMPLIFICADO -->
+        <div class="lg:col-span-5 space-y-6">
+
+            <div class="mb-2">
+                <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Previsão da Rescisão</h2>
+                <p class="text-sm text-slate-500 mt-1">Apenas marque as opções. O sistema calculará uma estimativa muito
+                    próxima do valor real.</p>
+            </div>
+
+            <form id="rescisao-form" class="space-y-6">
+
+                <!-- Bloco 1: O Contrato -->
+                <div
+                    class="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6 transition-all hover:shadow-md">
+                    <h3
+                        class="text-sm font-bold text-slate-800 flex items-center gap-2 uppercase tracking-wide mb-5 pb-3 border-b border-slate-100">
+                        <i data-lucide="file-signature" class="w-4 h-4 text-brand-600"></i> 1. Dados Básicos
+                    </h3>
+
+                    <div class="space-y-5">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Salário
+                                Mensal (Na Carteira)</label>
+                            <div class="relative group">
+                                <span
+                                    class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-semibold group-focus-within:text-brand-500 transition-colors">R$</span>
+                                <input type="number" id="salary" placeholder="0,00"
+                                    class="w-full pl-11 pr-4 py-3.5 bg-white border border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all font-semibold text-slate-900 text-lg shadow-sm" />
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Data
+                                    Início</label>
+                                <input type="date" id="startDate"
+                                    class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all text-sm text-slate-700 font-medium shadow-sm" />
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Data
+                                    Saída</label>
+                                <input type="date" id="endDate"
+                                    class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all text-sm text-slate-700 font-medium shadow-sm" />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Motivo do
+                                Afastamento</label>
+                            <div class="relative">
+                                <select id="reason"
+                                    class="w-full px-4 py-3.5 bg-white border border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all text-sm font-medium text-slate-700 appearance-none shadow-sm cursor-pointer">
+                                    <option value="sem_justa_causa">Demissão Sem Justa Causa</option>
+                                    <option value="pedido_demissao">Pedido de Demissão</option>
+                                    <option value="termino_contrato">Término de Contrato (Ex: Aprendiz / Experiência)
+                                    </option>
+                                    <option value="justa_causa">Demissão Por Justa Causa</option>
+                                </select>
+                                <i data-lucide="chevron-down"
+                                    class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"></i>
+                            </div>
+                        </div>
+
+                        <div id="boxAviso">
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Situação
+                                do Aviso Prévio</label>
+                            <div class="relative">
+                                <select id="avisoPrevio"
+                                    class="w-full px-4 py-3.5 bg-white border border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all text-sm font-medium text-slate-700 appearance-none shadow-sm cursor-pointer">
+                                    <option value="indenizado">A empresa indenizou (Fui dispensado)</option>
+                                    <option value="trabalhado">Trabalhei o aviso</option>
+                                    <option value="nao_cumprido">Pedi demissão e não cumpri</option>
+                                </select>
+                                <i data-lucide="chevron-down"
+                                    class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"></i>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Tinha
+                                férias antigas não tiradas?</label>
+                            <div class="flex gap-3 bg-slate-50 p-1.5 rounded-xl border border-slate-200">
+                                <button type="button" data-val="0"
+                                    class="ferias-btn flex-1 py-2 rounded-lg text-sm font-bold transition-all shadow-sm bg-white text-brand-600 border border-slate-200 ring-2 ring-brand-500/20">Não</button>
+                                <button type="button" data-val="1"
+                                    class="ferias-btn flex-1 py-2 rounded-lg text-sm font-semibold transition-all text-slate-500 hover:text-slate-800 hover:bg-white/50">1
+                                    Ano</button>
+                                <button type="button" data-val="2"
+                                    class="ferias-btn flex-1 py-2 rounded-lg text-sm font-semibold transition-all text-slate-500 hover:text-slate-800 hover:bg-white/50">2
+                                    Anos</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bloco 2: Sua Rotina -->
+                <div
+                    class="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6 transition-all hover:shadow-md">
+                    <h3
+                        class="text-sm font-bold text-slate-800 flex items-center gap-2 uppercase tracking-wide mb-5 pb-3 border-b border-slate-100">
+                        <i data-lucide="briefcase" class="w-4 h-4 text-emerald-600"></i> 2. A Sua Rotina
+                    </h3>
+                    <div class="space-y-5">
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Trabalha
+                                com Risco / Insalubridade?</label>
+                            <div class="relative">
+                                <select id="insalubridade"
+                                    class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all text-sm font-medium text-slate-700 appearance-none shadow-sm cursor-pointer">
+                                    <option value="none">Não, trabalho normal.</option>
+                                    <option value="periculosidade">Sim, recebo Periculosidade (30%)</option>
+                                    <option value="insalubridade">Sim, recebo Insalubridade</option>
+                                </select>
+                                <i data-lucide="chevron-down"
+                                    class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"></i>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Média de
+                                Ganhos Extras (Opcional)</label>
+                            <p class="text-[10px] text-slate-500 mb-2">Se ganha comissões ou horas extras frequentes,
+                                informe a média mensal.</p>
+                            <div class="relative group">
+                                <span
+                                    class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-semibold group-focus-within:text-emerald-500 transition-colors">R$</span>
+                                <input type="number" id="mediasVariaveis" placeholder="0,00"
+                                    class="w-full pl-11 pr-4 py-3 bg-white border border-slate-300 rounded-xl focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all font-semibold text-slate-700 text-sm shadow-sm" />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label
+                                class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Dependentes
+                                para Abater no IRRF</label>
+                            <div class="flex gap-2 bg-slate-50 p-1.5 rounded-xl border border-slate-200"
+                                id="dependentes-container">
+                                <button type="button" data-val="0"
+                                    class="dep-btn flex-1 py-1.5 rounded-lg text-xs font-bold transition-all shadow-sm bg-white text-emerald-600 border border-slate-200 ring-2 ring-emerald-500/20">0</button>
+                                <button type="button" data-val="1"
+                                    class="dep-btn flex-1 py-1.5 rounded-lg text-xs font-semibold transition-all text-slate-500 hover:text-slate-800 hover:bg-white/50">1</button>
+                                <button type="button" data-val="2"
+                                    class="dep-btn flex-1 py-1.5 rounded-lg text-xs font-semibold transition-all text-slate-500 hover:text-slate-800 hover:bg-white/50">2</button>
+                                <button type="button" data-val="3"
+                                    class="dep-btn flex-1 py-1.5 rounded-lg text-xs font-semibold transition-all text-slate-500 hover:text-slate-800 hover:bg-white/50">3+</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Bloco 3: Descontos Automáticos -->
+                <div
+                    class="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6 transition-all hover:shadow-md">
+                    <h3
+                        class="text-sm font-bold text-slate-800 flex items-center gap-2 uppercase tracking-wide mb-5 pb-3 border-b border-slate-100">
+                        <i data-lucide="scissors" class="w-4 h-4 text-rose-600"></i> 3. Descontos do Mês
+                    </h3>
+
+                    <div class="space-y-4">
+
+                        <label
+                            class="flex items-center justify-between cursor-pointer p-4 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">
+                            <div>
+                                <p class="text-sm font-bold text-slate-800">A empresa desconta Vale Transporte?</p>
+                                <p class="text-xs text-slate-500 mt-0.5">Calcularemos o teto de 6% sobre o salário base.
+                                </p>
+                            </div>
+                            <div
+                                class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                                <input type="checkbox" id="descontoVT"
+                                    class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-slate-300 z-10 transition-all" />
+                                <label for="descontoVT"
+                                    class="toggle-label block overflow-hidden h-6 rounded-full bg-slate-300 cursor-pointer transition-colors"></label>
+                            </div>
+                        </label>
+
+                        <label
+                            class="flex items-center justify-between cursor-pointer p-4 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">
+                            <div>
+                                <p class="text-sm font-bold text-slate-800">Costuma receber "Vale / Adiantamento"?</p>
+                                <p class="text-xs text-slate-500 mt-0.5">Se saiu depois do dia 15, estimaremos 40%.</p>
+                            </div>
+                            <div
+                                class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                                <input type="checkbox" id="recebeAdiantamento"
+                                    class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-slate-300 z-10 transition-all" />
+                                <label for="recebeAdiantamento"
+                                    class="toggle-label block overflow-hidden h-6 rounded-full bg-slate-300 cursor-pointer transition-colors"></label>
+                            </div>
+                        </label>
+
+                        <div class="pt-2">
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Teve
+                                faltas injustificadas?</label>
+                            <input type="number" id="faltasDias" placeholder="Quantos dias de falta?"
+                                class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl focus:ring-4 focus:ring-rose-500/10 focus:border-rose-500 outline-none transition-all font-semibold text-slate-700 text-sm shadow-sm" />
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- COLUNA DIREITA: EXTRATO VISUAL "DASHBOARD CEO" -->
+        <div id="right-panel" class="lg:col-span-7 sticky top-24">
+            <!-- Injetado pelo JS -->
+        </div>
+
+    </main>
+
+    <footer class="bg-[#050814] border-t border-slate-800 w-full mt-auto relative overflow-hidden">
+        <!-- Glow Decorativo de Fundo -->
+        <div
+            class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-px bg-gradient-to-r from-transparent via-brand-500 to-transparent opacity-50">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 md:px-8 py-10 lg:py-16 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+
+                <div class="md:col-span-12 lg:col-span-6 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="calculator" class="w-6 h-6 text-brand-400"></i>
+                        <h4 class="text-white font-bold text-2xl tracking-tight">Acerto<span
+                                class="text-brand-500">Fácil</span></h4>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed max-w-md">
+                        Simulador de rescisão com inteligência contábil embutida. Sem jargões e sem cálculos complexos
+                        manuais. Apenas regras exatas da CLT de forma transparente.
+                    </p>
+                </div>
+
+                <div class="md:col-span-12 lg:col-span-6 flex flex-col md:items-end w-full">
+                    <div
+                        class="bg-gradient-to-br from-slate-900 to-slate-900/50 rounded-2xl p-6 border border-slate-800 shadow-2xl relative overflow-hidden group w-full md:w-[350px]">
+                        <h4 class="text-white font-semibold mb-2 text-sm flex items-center gap-2 relative z-10">
+                            <i data-lucide="code-2" class="w-4 h-4 text-emerald-400"></i> Sobre o Desenvolvedor
+                        </h4>
+                        <p class="text-xs text-slate-400 mb-5 leading-relaxed relative z-10">
+                            Transformando regras de negócio em soluções de UX focadas no utilizador.
+                        </p>
+                        <a href="#" target="_blank" rel="noopener noreferrer"
+                            class="relative z-10 inline-flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-500 text-white px-5 py-3 rounded-xl transition-all shadow-[0_0_20px_rgba(99,102,241,0.25)] hover:shadow-[0_0_30px_rgba(99,102,241,0.5)] font-medium text-sm w-full group/btn">
+                            <span>Acessar o Portfólio</span>
+                            <i data-lucide="arrow-right"
+                                class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="border-t border-slate-800/60 bg-[#03050A]">
+            <div class="max-w-7xl mx-auto px-4 md:px-8 py-8 flex flex-col items-center justify-between gap-6">
+
+                <!-- Mensagem Autoexplicativa sobre a Precisão -->
+                <div
+                    class="flex items-start gap-4 text-sm text-slate-400 bg-slate-900/40 p-5 md:p-6 rounded-2xl border border-slate-800/80 w-full shadow-inner">
+                    <div
+                        class="bg-amber-500/20 p-2 rounded-lg border border-amber-500/30 shrink-0 mt-0.5 hidden sm:block">
+                        <i data-lucide="info" class="w-6 h-6 text-amber-500"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="font-bold text-amber-500 flex items-center gap-2">
+                            <i data-lucide="info" class="w-4 h-4 sm:hidden"></i>
+                            Por que o valor calculado é uma estimativa aproximada?
+                        </p>
+                        <p class="leading-relaxed">
+                            O AcertoFácil atua como um <strong>motor de previsão inteligente</strong>, deduzindo
+                            impostos e benefícios através da matemática estrita da lei laboral (CLT). No entanto, o
+                            valor exibido pode apresentar ligeiras divergências (alguns reais/cêntimos) em relação ao
+                            seu papel oficial. Isto acontece porque as empresas frequentemente aplicam
+                            <strong>arredondamentos próprios</strong> nos sistemas de RH, cobram percentagens fixas em
+                            vez de proporcionais (ex: vales), ou seguem convenções muito específicas do seu sindicato.
+                            Utilize este resultado como um excelente guia de orientação e não como um substituto do seu
+                            Termo de Rescisão Oficial.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="w-full flex flex-col sm:flex-row items-center justify-between gap-4 mt-2">
+                    <p class="text-xs text-slate-500 font-medium">
+                        &copy; 2026 Acerto Fácil. Plataforma demonstrativa.
+                    </p>
+                    <div class="flex items-center gap-2 text-xs text-emerald-500/80">
+                        <i data-lucide="shield-check" class="w-4 h-4"></i>
+                        <span>Matemática legal e atualizada.</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <script src="/src/js/main.js"></script>
+
+</body>
+
+</html>
